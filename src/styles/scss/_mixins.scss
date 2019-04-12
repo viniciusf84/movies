@@ -1,0 +1,44 @@
+/* transition */
+@mixin transition($what: all, $time: 0.2s, $how: ease-in-out) {
+    -webkit-transition: $what $time $how;
+    -moz-transition:    $what $time $how;
+    -ms-transition:     $what $time $how;
+    -o-transition:      $what $time $how;
+    transition:         $what $time $how;
+}
+
+/**
+ * Center 
+ */
+
+@mixin centerContent() {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    height: 100vh;
+    align-items: center;
+}
+
+/**
+ * Media queries
+ */
+
+@mixin mediaQueries($width, $type: min) {
+    @if map_has_key($breakpoints, $width) {
+        $width: map_get($breakpoints, $width);
+        @if $type == max {
+            $width: $width - 1px;
+        }
+        @media only screen and (#{$type}-width: $width) {
+            @content;
+        }
+    }
+}
+
+/**
+ * Rem-converter mixin to convert px to rem
+ */
+ @mixin pxToRem($pxValue, $property: "font-size", $standard-size: 16) {
+    #{$property}: $pxValue + px;
+    #{$property}: $pxValue/$standard-size + rem;
+  }

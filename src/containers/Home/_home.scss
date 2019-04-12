@@ -1,0 +1,19 @@
+.home {    
+
+    .home__icon {
+        margin-bottom: 30px;
+    }
+
+    h1 {
+        @include pxToRem(30);
+        margin-bottom: 14px;
+    }
+
+    p {
+        @include pxToRem(12)
+    }
+
+    .btn {
+        margin-top: 50px;      
+    }
+}

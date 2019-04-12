@@ -1,0 +1,14 @@
+/* General */
+@import 'variables';
+@import 'mixins';
+@import 'media-queries';
+@import 'layout';
+
+/* Components styles */
+@import '../../components/DataDisplay/LoadingContent/loadingContent';
+
+/* Containers styles */
+@import '../../containers/Home/home';
+@import '../../containers/Search/search';
+@import '../../containers/Results/results';
+@import '../../containers/App/app';

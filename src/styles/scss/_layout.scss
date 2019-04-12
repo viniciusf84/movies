@@ -1,0 +1,104 @@
+/*** Layout ***/
+
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: $background-1;
+    color: $text-1;
+}
+
+h1, h2, h3 {
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 0 15px;
+    width: 100%;
+
+    @include respond-above(xs) {
+        max-width: 540px;
+    }
+    
+    @include respond-above(sm) {
+        max-width: 720px;
+    }
+
+    @include respond-above(md) {
+        max-width: 960px;
+    }
+
+    @include respond-above(lg) {
+        max-width: 1140px;
+    }
+
+}
+
+.btn {
+    border-radius: 0;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    @include transition(background-color, .2s, ease-in);
+
+    &-primary{        
+        max-width: 360px;
+        width: 100%;
+        @include pxToRem(13);
+        margin: 0 auto;
+        font-weight: bold;
+        
+        :hover {
+            background: $background-2;
+        }
+
+        :active, 
+        :active a {
+            color: $btn-bg;
+        }
+
+        a {
+            padding: 22px 15px;
+            display: flex;
+            justify-content: space-between;
+            text-decoration: none;
+            font-weight: bold;    
+        }
+
+        &.no-link {
+            display: flex;
+            justify-content: space-between;
+            padding: 22px 15px;
+            background-color: $btn-bg;
+            color: $white;
+
+            &:disabled {
+                background-color: $text-3;
+                color: $text-2;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    .icon-wrapper {
+        margin-bottom: 0;
+    }
+    
+     
+} 
+
+/* \Layout */
