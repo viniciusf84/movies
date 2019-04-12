@@ -14,7 +14,8 @@ class Results extends Component {
     loadInfo = (obj) => {
         const mape = obj.map(e => 
             <div className="result-list__item">
-                <img src={e.Poster} />
+                <img src={e.Poster} alt={e.Title} />
+                <h5>{e.Title}</h5>
             </div>
         );
 

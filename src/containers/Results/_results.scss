@@ -10,6 +10,7 @@
     }
     
     &__item {
+        position: relative;
         width: 25%;
         height: 250px;
         padding: 0 10px;
@@ -19,6 +20,24 @@
             height: 100%;
             width: 100%;
             object-fit: cover;
+        }
+        
+        &:after {
+            content: ''; 
+            display: block;  
+            background-color: none ;
+            width: calc(100% - 15px);
+            height: 100%;
+            position: absolute;
+            top: 0;
+            z-index: 1;       
+            @include transition(background-color, .2s, ease-out)
+        }
+
+        &:hover {
+            &:after {                
+                background-color: rgba(0,0,0,.666);               
+            }
         }
     }
    
