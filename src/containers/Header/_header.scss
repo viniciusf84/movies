@@ -1,0 +1,9 @@
+.page-header { 
+    margin-bottom: 30px;
+    padding: 10px 15px;
+    background-color: rgba(0, 0, 0, .3);
+    
+    h1 {
+        @include pxToRem(30);
+    }
+}

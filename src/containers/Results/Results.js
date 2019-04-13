@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilm } from '@fortawesome/free-solid-svg-icons';
 
+// Components
 import LoadingContent from '../../components/DataDisplay/LoadingContent';
-import Services from '../../utils/services';
 
 class Results extends Component {    
 

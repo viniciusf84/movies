@@ -37,7 +37,19 @@
 /**
  * Rem-converter mixin to convert px to rem
  */
- @mixin pxToRem($pxValue, $property: "font-size", $standard-size: 16) {
+@mixin pxToRem($pxValue, $property: "font-size", $standard-size: 16) {
     #{$property}: $pxValue + px;
     #{$property}: $pxValue/$standard-size + rem;
-  }
+}
+
+
+/**
+ * Simple fade-in animation
+ */
+
+@mixin fadeIn() {
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+}
