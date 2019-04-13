@@ -2,8 +2,8 @@ import Api from './Api';
 
 class Services {
 
-  static search(query) {
-    return Api.get(`s=${query}`);
+  static search(query, page) {
+    return Api.get(`s=${query}&page=${page}`);
   } 
 }
 

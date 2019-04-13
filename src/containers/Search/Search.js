@@ -10,22 +10,38 @@ import Results from '../Results';
 import Services from '../../utils/services';
 
 class Search extends Component {
-
+    
     state = {
+        loading: false,
         search: '',
-        data: {}
+        count: 1,
+        data: [],
+        more: false,
+        message: ''
     }    
+    
 
-    onType = debounce((value) => {        
+    componentDidUpdate(prevProps, prevState) {
+        if(prevState.search !== this.state.search) {
+            this.setState({
+                count: 1,
+                data: []
+            })
+        }
+    }
 
+    onType = debounce((value) => {   
+        
         if (!value) {
             this.setState({ 
-                search: {} 
+                search: '',
+                more: false 
             });
             
         } else {           
             this.setState({ 
-                search: value,                 
+                loading: true,             
+                search: value,   
             },
             () => this.getResults()
             );
@@ -33,18 +49,53 @@ class Search extends Component {
 
     }, 600);
 
-    getResults = async () => {       
+    getResults = async () => {    
 
-        const results = await Services.search(this.state.search);
+        const results = await Services.search(this.state.search, this.state.count);        
 
-        if(results.status === 200) {
-            if(results.data.Response) {
+        if(results.status === 200) {            
+
+            // error
+            if(results.data.Error) {
                 this.setState({
-                    data: results.data.Search
+                    loading: false,
+                    data: [],
+                    message: results.data.Error
+                })
+            } else {  // success                      
+                this.setState(prevState => ({
+                    loading: false,
+                    data: prevState.search === this.state.search ? prevState.data.concat(results.data.Search) : results.data.Search,                    
+                    message: 'Your search results: '                    
+                })
+                )                
+            }
+
+            // if there is more content to load
+            if(parseInt(results.data.totalResults) > this.state.data.length) {
+                this.setState(prevState => ({
+                    more: true,
+                    count: prevState.count + 1
+                }))
+            } else {
+                this.setState({
+                    more: false,                    
                 })
             }
+
+        } else {
+            this.setState({
+                loading: false, 
+                search: '',
+                data: [],
+                message: 'Sorry... there is no result for your search',
+                more: false,
+                count: 1
+            });
         }
     }
+
+    onFormSubmit = e => e.preventDefault();
 
     render() {
         return(
@@ -63,7 +114,7 @@ class Search extends Component {
                                 className='form-control'
                                 name='movie-search-input'
                                 placeholder="Type here..."
-                                onChange={e => this.onType(e.target.value)}
+                                onChange={e => this.onType(e.target.value, this.state.count)}
                             />
                         </div>
                         
@@ -72,8 +123,12 @@ class Search extends Component {
                 </section>
 
                 <Results 
+                    loading={this.state.loading}
+                    search={this.state.search}
                     movies={this.state.data} 
-                    title="Your search results:" 
+                    title={this.state.message} 
+                    more={this.state.more}
+                    moreOnClick={() => this.onType(this.state.search, (this.state.count + 1))}
                 /> 
             </React.Fragment>
         )

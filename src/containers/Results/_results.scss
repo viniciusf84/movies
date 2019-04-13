@@ -10,38 +10,110 @@
     }
     
     &__item {
-        position: relative;
         width: 25%;
-        height: 250px;
         padding: 0 10px;
         margin: 10px 0;
-        
-        img {
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-        }
-        
-        &:after {
-            content: ''; 
-            display: block;  
-            background-color: none ;
-            width: calc(100% - 15px);
-            height: 100%;
-            position: absolute;
-            top: 0;
-            z-index: 1;       
-            @include transition(background-color, .2s, ease-out)
-        }
 
         &:hover {
-            &:after {                
-                background-color: rgba(0,0,0,.666);               
+            color: $yellow;
+        }
+
+        @include mediaQueries(md, max) {
+            width: 33%;
+        }
+
+        @include mediaQueries(sm, max) {
+            width: 50%;
+        }
+
+        @include mediaQueries(xs, max) {
+            width: 100%;
+        }
+
+        .wrapper {
+            position: relative;
+            height: 250px;
+            cursor: pointer;
+            @include transition(background-color, .2s, ease-out);
+
+            @include mediaQueries(md, max) {
+                height: 220px;
+            }
+
+            @include mediaQueries(sm, max) {
+                height: 200px;
+            }
+
+            @include mediaQueries(xs, max) {
+                height: 250px;
             }
         }
+
+        .icon__wrapper {
+            background-color: $black;
+            @include centerContent();
+
+            &:hover {
+                background-color: $background-3;
+            }
+        }
+        
+        .img__wrapper {        
+            background-color: $background-3;            
+
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+            }
+       
+            &:after {
+                content: ''; 
+                display: block;  
+                background-color: transparent;
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                z-index: 1; 
+                @include transition(background-color, .2s, ease-out)      
+            }
+    
+            &:hover {
+                &:after {                
+                    background-color: rgba(0,0,0,.666);               
+                }
+            }
+        }
+
+        .title {
+            cursor: pointer;
+            
+            h5 {
+                padding: 10px 0 20px;
+                margin: 0;
+            }
+        }         
     }
-   
-
-
 }
 
+.load-more {
+    @include pxToRem(18);
+    width: 30%;
+    display: block;
+    margin: 30px auto 100px;
+    border: none;
+    color: $text-2;
+    background-color: $white;
+    line-height: 3rem;
+    cursor: pointer;
+    
+    &:hover {
+        background-color: $yellow;
+        font-weight: bold;
+    }
+
+    @include mediaQueries(sm, max) {
+        width: 100%;
+    }
+}

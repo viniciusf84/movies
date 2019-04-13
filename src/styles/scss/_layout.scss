@@ -49,9 +49,9 @@ p {
 }
 
 .btn {
+    @include pxToRem(14px);
     border-radius: 0;
-    border: none;
-    font-size: 14px;
+    border: none;    
     cursor: pointer;
     @include transition(background-color, .2s, ease-in);
 
