@@ -17,16 +17,16 @@ class App extends Component {
 
     render() {
         return (
-            <React.Fragment>
-                <Header pageTitle="TELAFILME" />
-                    <Router>
+            <Router>
+                <React.Fragment>
+                    <Header pageTitle="TELAFILME" />
                         <ScrollToTop>
                             <Route exact path="/" component={Home} />                    
                             <Route path="/profile/:movieId" component={Profile} />
                         </ScrollToTop>
-                    </Router>
-                <Footer text="TelaFilme 2019 - Todos os direitos reservados" />    
-            </React.Fragment> 
+                    <Footer text="TelaFilme 2019 - Todos os direitos reservados" />    
+                </React.Fragment> 
+            </Router>
         );
     }
 }
