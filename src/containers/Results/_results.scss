@@ -3,7 +3,7 @@
 .result-list {
     display: flex;
     flex-wrap: wrap;
-    margin: 0 -15px;
+    margin: 0 0 60px;
 
     h4 {
         display: block;
@@ -14,44 +14,27 @@
     &__item {
         width: 25%;
         padding: 0 10px;
-        margin: 10px 0;
+        margin: 10px 0 0;
         opacity: 1;
         animation: fadeIn .3s;
 
-
         &:hover {
-            color: $yellow;
+            a {
+                color: $yellow;
+            }
         }
 
-        @include mediaQueries(md, max) {
-            width: 33%;
-        }
+        a {
+            color: $white;            
+        }       
 
-        @include mediaQueries(sm, max) {
-            width: 50%;
-        }
-
-        @include mediaQueries(xs, max) {
-            width: 100%;
-        }
-
-        .wrapper {
+        .wrap {
+            text-align:center;
             position: relative;
             height: 250px;
             cursor: pointer;
             @include transition(background-color, .2s, ease-out);
 
-            @include mediaQueries(md, max) {
-                height: 220px;
-            }
-
-            @include mediaQueries(sm, max) {
-                height: 200px;
-            }
-
-            @include mediaQueries(xs, max) {
-                height: 250px;
-            }
         }
 
         .icon__wrapper {
@@ -85,8 +68,11 @@
             }
     
             &:hover {
-                &:after {                
-                    background-color: rgba(0,0,0,.666);               
+                &:after {  
+                    content: 'see full profile';              
+                    background-color: rgba(0,0,0,.666);     
+                    color: $white;  
+                    @include centerContent();        
                 }
             }
         }
@@ -112,10 +98,10 @@
     background-color: $white;
     line-height: 3rem;
     cursor: pointer;
+    font-weight: bold;
     
     &:hover {
         background-color: $yellow;
-        font-weight: bold;
     }
 
     @include mediaQueries(sm, max) {

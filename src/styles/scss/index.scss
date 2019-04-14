@@ -1,3 +1,5 @@
+@import '~flexboxgrid-sass/flexboxgrid';
+
 /* General */
 @import 'variables';
 @import 'mixins';
@@ -9,7 +11,9 @@
 
 /* Containers styles */
 @import '../../containers/Header/header';
+@import '../../containers/Footer/footer';
 @import '../../containers/Home/home';
 @import '../../containers/Search/search';
 @import '../../containers/Results/results';
+@import '../../containers/Profile/profile';
 @import '../../containers/App/app';

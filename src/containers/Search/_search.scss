@@ -1,50 +1,35 @@
 .search-form {
-
+    @include pxToRem(12);   
+    color: $text-3;
+    padding: 10px 0;
+    margin-bottom: 40px; 
+    
     h2 {
         @include pxToRem(18);
         margin-bottom: 1rem;
     }
-    
-    form {
-        height: 100%;
-    }
-    
-    .line-break {
-        display: block;
+ 
+    input {
+        background: $white;
+        margin-top: 10px;
+        border: none;
+        padding: 1.4rem;
+        width: 100%;
+        @include pxToRem(14);
+        font-weight: bold;
+       
+        &:focus, 
+        &:active {
+            border-color: $white;                
+        }
     }
 
-    .form-group {
-        display: flex;
-        color: $text-3;
-        @include pxToRem(12);
-        padding: 10px 0;
-        margin-bottom: 40px;
-        
-        .container {
-            position: relative;
-        }
-        
-        input {
-            background: $white;
-            margin-top: 10px;
-            border: none;
-            padding: 1.4rem;
-            width: 100%;
-            @include pxToRem(14);
-            font-weight: bold;
-            &:focus, 
-            &:active {
-                border-color: $white;                
-            }
-        }
-
-        .icon-wrapper {
-            position: absolute;
-            left: 200px;
-            bottom: 3px;
-            color: $green;
-            @include pxToRem(16);
-        }
+    .icon-wrapper {
+        position: absolute;
+        left: 200px;
+        bottom: 3px;
+        color: $green;
+        @include pxToRem(16);
     }
 
 

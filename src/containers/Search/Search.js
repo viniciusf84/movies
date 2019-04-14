@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { faCheckCircle, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { debounce } from 'lodash';
 
 // components
@@ -22,14 +21,29 @@ class Search extends Component {
         more: false,
         message: '',
     }    
+
+    componentDidMount() {       
+        
+        this.setState({
+            search: 'Batman'
+        },
+        () => this.getResults(Services.titleSearch, this.state.search, this.state.count)
+        )
+    }
     
 
     componentDidUpdate(prevProps, prevState) {
         if(prevState.search !== this.state.search) {
             this.setState({
                 count: 1,
-                data: []
+                data: [],
+                message: 'Loading'
             })
+            if(this.state.search === '') {
+                this.setState({
+                    message: ''
+                })
+            }
         }
     }
 
@@ -46,15 +60,15 @@ class Search extends Component {
                 loading: true,             
                 search: value,   
             },
-            () => this.getResults()
+            () => this.getResults(Services.titleSearch, this.state.search, this.state.count)
             );
         }
 
     }, 600);
 
-    getResults = async () => {    
+    getResults = async (func, search, count) => {    
 
-        const results = await Services.search(this.state.search, this.state.count);        
+        const results = await func(search, count);        
 
         if(results.status === 200) {            
 
@@ -69,7 +83,7 @@ class Search extends Component {
                 this.setState(prevState => ({
                     loading: false,
                     data: prevState.search === this.state.search ? prevState.data.concat(results.data.Search) : results.data.Search,                    
-                    message: 'Your search results: '                    
+                    message: `Results for '${this.state.search}'`                    
                 })
                 )                
             }
@@ -96,9 +110,7 @@ class Search extends Component {
                 count: 1
             });
         }
-    }
-
-    onFormSubmit = e => e.preventDefault();
+    }    
 
     render() {
         return(
@@ -107,20 +119,11 @@ class Search extends Component {
 
                     <h2>{this.props.title}</h2>
                     
-                    <form 
-                        id="movies-search" 
-                        onSubmit={e => this.onFormSubmit(e)}
-                    >
-                        
-                        <div className='form-group'>
-                            <SearchInput                               
-                                name='movie-search-input'
-                                placeholder="Type here..."
-                                onChange={e => this.onType(e.target.value, this.state.count)}
-                            />
-                        </div>
-                        
-                    </form>   
+                    <SearchInput                               
+                        name='movie-search-input'
+                        placeholder="Type here..."
+                        onChange={e => this.onType(e.target.value, this.state.count)}
+                    />              
 
                 </section>
 

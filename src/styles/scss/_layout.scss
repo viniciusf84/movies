@@ -1,7 +1,23 @@
 /*** Layout ***/
 
-*, ::after, ::before {
+*, 
+::after, 
+::before {
     box-sizing: border-box;
+}
+
+html, 
+body {
+    min-height: 100%;
+}
+
+#root {
+    min-height: 100vh;
+    
+    >section {
+        padding-top: 40px;
+        min-height: calc(100vh - 100px);
+    }
 }
 
 body {
@@ -25,27 +41,8 @@ p {
     margin: 0;
 }
 
-.container {
-    margin: 0 auto;
-    padding: 0 15px;
-    width: 100%;
-
-    @include respond-above(xs) {
-        max-width: 540px;
-    }
-    
-    @include respond-above(sm) {
-        max-width: 720px;
-    }
-
-    @include respond-above(md) {
-        max-width: 960px;
-    }
-
-    @include respond-above(lg) {
-        max-width: 1140px;
-    }
-
+a {
+    text-decoration: none;
 }
 
 .btn {

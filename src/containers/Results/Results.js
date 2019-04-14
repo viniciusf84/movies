@@ -1,11 +1,16 @@
 import React, { Component, Fragment } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilm } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 // Components
 import LoadingContent from '../../components/DataDisplay/LoadingContent';
 
 class Results extends Component {    
+
+    goTo(id) {
+        this.props.history.push(`/profile/${id}`)
+    }
 
     render() {
         const { search, loading, movies, title, more, moreOnClick } = this.props;
@@ -16,18 +21,22 @@ class Results extends Component {
                 <h4>{title}</h4>
                 <section id="results" className='result-list'> 
 
-                {search && movies && movies.length > 0 &&
-                    movies.map(e => 
+                {movies && movies.length > 0 &&
+                    movies.map(movie => 
                         <div className="result-list__item">
-                            <div className={e.Poster === 'N/A' ? 'wrapper icon__wrapper' : 'wrapper  img__wrapper' } >
-                                {e.Poster === 'N/A' ?
-                                    <FontAwesomeIcon icon={faFilm} size="10x" />
-                                :                                            
-                                    <img src={e.Poster} alt={e.Title} />
-                                }
-                            </div>
+                            <Link to={`/profile/${movie.imdbID}`}>
+                                <div className={movie.Poster === 'N/A' ? 'wrap icon__wrapper' : 'wrap  img__wrapper' } >
+                                    {movie.Poster === 'N/A' ?
+                                        <FontAwesomeIcon icon={faFilm} size="10x" />
+                                    :                                            
+                                        <img src={movie.Poster} alt={movie.Title} />
+                                    }
+                                </div>
+                            </Link>
                             <div className="title">
-                                <h5>{e.Title}</h5>
+                                <Link to={`/profile/${movie.imdbID}`}>
+                                    <h5>{movie.Title}</h5>
+                                </Link>
                             </div>
                         </div>
                     )
@@ -45,7 +54,7 @@ class Results extends Component {
                         className="load-more"
                         onClick={moreOnClick}
                     >
-                        Find more...
+                        More movies...
                     </button>
                 }
             </Fragment>

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 // Containers
-import Header from '../Header';
 import Search from '../Search';
 
 
@@ -9,12 +8,12 @@ class Home extends Component {
     render() {
         return(
             <section id="home" className="home">
-                <main className="main-content">  
-                    <Header pageTitle="TELAFILME" />
+                <main className="main-content">                    
                                    
-                    <div className="container"> 
+                    <div className="wrapper"> 
                         <Search title="Search for your favorite movie" />                                          
                     </div>
+                    
                 </main>
             </section>
         )
