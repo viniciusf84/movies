@@ -117,13 +117,15 @@ class Search extends Component {
             <React.Fragment>
                 <section className='search-form'>
 
-                    <h2>{this.props.title}</h2>
-                    
-                    <SearchInput                               
-                        name='movie-search-input'
-                        placeholder="Type here..."
-                        onChange={e => this.onType(e.target.value, this.state.count)}
-                    />              
+                    <div className="wrapper container-fluid"> 
+                        <h2>{this.props.title}</h2>
+                        
+                        <SearchInput                               
+                            name='movie-search-input'
+                            placeholder="Type here..."
+                            onChange={e => this.onType(e.target.value, this.state.count)}
+                        />              
+                    </div>
 
                 </section>
 

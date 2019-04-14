@@ -57,9 +57,9 @@ class Profile extends Component {
 
         return(
            
-            <section className='movie-profile'>
+            <section className="movie-profile">
                 
-                <div className='wrapper'>
+                <div className="wrapper container-fluid">
                     {this.state.message && 
                         <h3>{this.state.message}</h3>
                     }
@@ -69,7 +69,7 @@ class Profile extends Component {
                         <h1>{Title}</h1>
 
                         <div className="row">
-                            <div className="coll-xs-12 col-sm-8 col-md-6 col-lg-4">
+                            <div className="col-xs-12 col-sm-6 col-md-6 col-lg-4">
                                 <figure className="poster">
                                     {Poster === 'N/A' ?
                                         <FontAwesomeIcon icon={faFilm} size="10x" />
@@ -80,7 +80,7 @@ class Profile extends Component {
                                 <Link to="/" >Back</Link>
                             </div>
 
-                            <div className="coll-xs-12 col-sm-4 col-md-6 col-lg-6">
+                            <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <div className="text">                                
                                     <p>
                                         Title: <strong>{Title}</strong>

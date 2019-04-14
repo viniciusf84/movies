@@ -24,12 +24,12 @@
         }
     }
 
-    .icon-wrapper {
-        position: absolute;
-        left: 200px;
-        bottom: 3px;
-        color: $green;
-        @include pxToRem(16);
+    .icon__wrapper {
+        position: relative;
+        color: $text-3;
+        float: right;
+        margin: -42px 16px 0 0;
+        pointer-events: none;
     }
 
 

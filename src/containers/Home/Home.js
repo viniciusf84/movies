@@ -9,11 +9,7 @@ class Home extends Component {
         return(
             <section id="home" className="home">
                 <main className="main-content">                    
-                                   
-                    <div className="wrapper"> 
-                        <Search title="Search for your favorite movie" />                                          
-                    </div>
-                    
+                    <Search title="Search for your favorite movie" />                      
                 </main>
             </section>
         )
