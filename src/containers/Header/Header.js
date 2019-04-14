@@ -6,7 +6,7 @@ class Header extends Component {
         const { pageTitle } = this.props;
         
         return(
-            <header className="page-header">
+            <header id="header" className="page-header">
                 <div className="brand start-xs">
                     <h1 className="page-title">
                         <Link to="/">
