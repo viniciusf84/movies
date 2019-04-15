@@ -94,7 +94,7 @@ class Profile extends Component {
                                             <img src={Poster} alt={Title} />
                                         }
                                     </figure>
-                                    <Link className="back" to="/" >Back</Link>
+                                    <Link className="back" to="/" >Back to search</Link>
                                 </div>
 
                                 <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -118,6 +118,7 @@ class Profile extends Component {
                                         }
                                         {Plot !== 'N/A' &&
                                         <p className="plot">
+                                            Description: <br />
                                             {Plot}
                                         </p>
                                         }
