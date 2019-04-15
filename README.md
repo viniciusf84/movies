@@ -12,7 +12,7 @@
 1. After cloning, go to the project's root folder;
 
 ```
-cd telafilme
+cd movies
 ```
 
 2. Install the dependencies using yarn or npm;
