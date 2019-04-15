@@ -13,7 +13,7 @@
         background: $white;
         margin-top: 10px;
         border: none;
-        padding: 1.4rem;
+        padding: 1rem;
         width: 100%;
         @include pxToRem(14);
         font-weight: bold;
@@ -28,7 +28,7 @@
         position: relative;
         color: $text-3;
         float: right;
-        margin: -42px 16px 0 0;
+        margin: -37px 16px 0 0;
         pointer-events: none;
     }
 
