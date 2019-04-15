@@ -8,6 +8,8 @@
     "@fortawesome/react-fontawesome": "^0.1.4",
     "axios": "^0.18.0",
     "flexboxgrid-sass": "^8.0.5",
+    "mobx": "^5.9.4",
+    "mobx-react": "^5.4.3",
     "node-sass": "^4.11.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",

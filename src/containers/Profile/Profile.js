@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom';
 // service
 import Services from '../../utils/services';
 
+// Store
+import store from '../../stores/SearchStore';
+
 
 class Profile extends Component {
     
@@ -14,6 +17,8 @@ class Profile extends Component {
        data: {},
        message: undefined
     }    
+
+    store = {store}
     
 
     componentDidMount() {
@@ -26,9 +31,9 @@ class Profile extends Component {
     }
 
     getMovieData = async id => {
-        const results = await Services.getData(id);
-
-        if(results.status === 200) { 
+        
+        try { 
+            const results = await Services.getData(id);
 
             if(results.data.Error) { // error
                 this.setState({
@@ -42,18 +47,16 @@ class Profile extends Component {
                 })
             }
 
-        } else {
+        } catch(error) {
             this.setState({
-                movieId: undefined,
-                data: {},
-                message: undefined
+                message: error
             }) 
         }
     }
 
    
     render() {
-        const { data,  data: { Title, Poster, Director, Actors, Genre, Plot, Website } } = this.state;    
+        const { data,  data: { Title, Poster, Director, Actors, Genre, Plot, Website } , } = this.state;    
 
         return(
            
@@ -64,8 +67,11 @@ class Profile extends Component {
                         <h3>{this.state.message}</h3>
                     }
                     
-                    {data &&
+                    {Object.keys(data).length > 0 ?
                     <article className="details">
+                        {store.searchString &&
+                            <span className="small">You've searched for "{store.searchString}" </span>
+                        }
                         <h1>{Title}</h1>
 
                         <div className="row">
@@ -77,7 +83,7 @@ class Profile extends Component {
                                         <img src={Poster} alt={Title} />
                                     }
                                 </figure>
-                                <Link to="/" >Back</Link>
+                                <Link className="back" to="/" >Back</Link>
                             </div>
 
                             <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -109,6 +115,11 @@ class Profile extends Component {
                                 
                             </div>
                         </div>
+                    </article>
+                    
+                    :
+                    <article className="details">
+                        <Link className="back" to="/" >Back</Link>
                     </article>
                     }
                 </div>

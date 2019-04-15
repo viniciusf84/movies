@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 
 // Containers
-import Search from '../Search';
+import SearchObs from '../Search';
 
+// Store
+import store from '../../stores/SearchStore';
 
 class Home extends Component {
     render() {
         return(
             <section id="home" className="home">
                 <main className="main-content">                    
-                    <Search title="Search for your favorite movie" />                      
+                    <SearchObs store={store} title="Search for your favorite movie" />                      
                 </main>
             </section>
         )

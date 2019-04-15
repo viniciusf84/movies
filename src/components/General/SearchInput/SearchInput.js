@@ -15,6 +15,7 @@ class SearchInput extends Component {
                     name={name}
                     placeholder={placeholder}
                     onChange={onChange}
+                    autoComplete="off"
                 />
                 <span className='icon__wrapper'>
                     <FontAwesomeIcon className="end-xs" icon={faSearch} size='2x'/>

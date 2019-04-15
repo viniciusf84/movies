@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { debounce } from 'lodash';
+import { observer } from 'mobx-react';
 
 // components
 import SearchInput from '../../components/General/SearchInput';
@@ -11,66 +12,93 @@ import Results from '../Results';
 import Services from '../../utils/services';
 
 
-class Search extends Component {
+const SearchObs = observer(class Search extends Component {
     
     state = {
         loading: false,
         search: '',
-        count: 1,
         data: [],
+        count: 1,
         more: false,
         message: '',
+        hasData: false
     }    
 
-    componentDidMount() {       
+    componentDidMount() { 
         
-        this.setState({
-            search: 'Batman'
-        },
-        () => this.getResults(Services.titleSearch, this.state.search, this.state.count)
-        )
-    }
-    
+        const { store } = this.props;
+        
+        if(store.data.length > 0) { // brings data from store
+            console.log('mount')
+            this.setState({
+                search: store.search,
+                data: store.data,
+                count: store.count,
+                more: store.more,
+                message: `Results for "${store.search}"`,
+                hasData: true
+            })
+
+        } else {
+
+            this.setState({
+                search: 'Batman' //TODO: get a real parameter for the first search
+            },
+            () => this.getResults(Services.titleSearch, this.state.search, this.state.count))
+
+        }
+    }    
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevState.search !== this.state.search) {
-            this.setState({
-                count: 1,
-                data: [],
-                message: 'Loading'
-            })
-            if(this.state.search === '') {
+       
+        if (!this.state.hasData) { // there's no data from store        
+            if(prevState.search !== this.state.search) {
+                console.log(`antes: ${prevState.search} depois: ${this.state.search}`)
                 this.setState({
-                    message: ''
+                    count: 1,
+                    data: [],
+                    message: 'Loading'
                 })
-            }
-        }
+                
+                if(this.state.search === '') {
+                    this.setState({ 
+                        message: ''
+                    })
+                }
+            }  
+        }      
     }
 
-    onType = debounce((value) => {   
+    componentWillUnmount() {
+        // update store
+        const { store } = this.props;
+
+        store.setSearchData(this.state.data);
+        store.setSearchString(this.state.search);
+        store.setSearchPage(this.state.count);
+        store.setMoreButton(this.state.more)
+    }
+
+    onHandleChange = debounce((value) => {   
         
-        if (!value) {
-            this.setState({ 
-                search: '',
-                more: false 
-            });
-            
-        } else {           
-            this.setState({ 
+        if (value) {                    
+            this.setState( prevState => ({ 
                 loading: true,             
-                search: value,   
-            },
-            () => this.getResults(Services.titleSearch, this.state.search, this.state.count)
+                search: value, 
+                message: '',
+                data: [],
+                hasData: false  
+            }),
+            () => this.getResults(Services.titleSearch, value, 1) //callback
             );
         }
 
     }, 600);
 
-    getResults = async (func, search, count) => {    
-
-        const results = await func(search, count);        
-
-        if(results.status === 200) {            
+    getResults = async (func, search, count) => {  
+        
+        try {            
+            const results = await func(search, count);        
 
             // error
             if(results.data.Error) {
@@ -78,43 +106,39 @@ class Search extends Component {
                     loading: false,
                     data: [],
                     message: results.data.Error
-                })
-            } else {  // success                      
+                });
+                
+                
+            } else {  // success  
                 this.setState(prevState => ({
                     loading: false,
-                    data: prevState.search === this.state.search ? prevState.data.concat(results.data.Search) : results.data.Search,                    
-                    message: `Results for '${this.state.search}'`                    
-                })
-                )                
-            }
+                    data: prevState.search === search ? prevState.data.concat(results.data.Search) : results.data.Search,                    
+                    message: `Results for "${search}"`,                     
+                }));
+                
+                // if there is more content to load
+                if(parseInt(results.data.totalResults) > this.state.data.length) {
+                    this.setState(prevState => ({
+                        more: true,
+                        count: prevState.count + 1
+                    }))
+                } else {
+                    this.setState({
+                        more: false,                    
+                    })
+                }              
+            }            
 
-            // if there is more content to load
-            if(parseInt(results.data.totalResults) > this.state.data.length) {
-                this.setState(prevState => ({
-                    more: true,
-                    count: prevState.count + 1
-                }))
-            } else {
-                this.setState({
-                    more: false,                    
-                })
-            }
-
-        } else {
-            this.setState({
-                loading: false, 
-                search: '',
-                data: [],
-                message: 'Sorry... there is no result for your search',
-                more: false,
-                count: 1
+        } catch (error) {
+            this.setState({               
+                message: error,                
             });
         }
     }    
 
     render() {
         return(
-            <React.Fragment>
+            <React.Fragment>                
                 <section className='search-form'>
 
                     <div className="wrapper container-fluid"> 
@@ -123,7 +147,7 @@ class Search extends Component {
                         <SearchInput                               
                             name='movie-search-input'
                             placeholder="Type here..."
-                            onChange={e => this.onType(e.target.value, this.state.count)}
+                            onChange={e => this.onHandleChange(e.target.value, this.state.count)}
                         />              
                     </div>
 
@@ -135,11 +159,11 @@ class Search extends Component {
                     movies={this.state.data} 
                     title={this.state.message} 
                     more={this.state.more}
-                    moreOnClick={() => this.onType(this.state.search, (this.state.count + 1))}
+                    onClickButton={() => this.getResults(Services.titleSearch, this.state.search, this.state.count)}
                 /> 
             </React.Fragment>
         )
     }
-}
+})
 
-export default Search;
+export default SearchObs;

@@ -14,37 +14,37 @@
         margin: 0;
         @include centerContent();
         min-height: 300px;
-        background-color: $background-3;
-        margin-bottom: 20px;
+        background-color: $background-3;        
 
         img {
             width: 100%;
         }
-
-        + a {    
-            display: block;
-            width: 70px;
-            background-color: $yellow;
-            color: $black;
-            padding: 10px 16px;   
-            margin: 0 0 40px;        
-        }
     }
 
+    a.back {    
+        display: block;
+        width: 70px;
+        background-color: $yellow;
+        color: $black;
+        padding: 10px 16px;   
+        margin: 30px 0 40px;        
+    }
+
+    
     .text {
         margin: 0 30px 0 20px;
     }
-
+    
     strong {
         color: $text-3;
         font-weight: normal;
     }
-
+    
     .plot {
         margin-top: 20px;
         color: $text-3;
     }
-
+    
     a {
         color: $yellow;
     }

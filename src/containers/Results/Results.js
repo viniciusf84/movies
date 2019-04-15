@@ -11,10 +11,10 @@ class Results extends Component {
     }
 
     render() {
-        const { loading, movies, title, more, moreOnClick } = this.props;
+        const { loading, movies, title, more, onClickButton, } = this.props;
         
         return(            
-            <div className="wrapper container-fluid"> 
+            <div className="wrapper container-fluid">                 
                 
                 <h4>{title}</h4>
                 <section id="results" className='result-list'> 
@@ -22,6 +22,7 @@ class Results extends Component {
                         {movies && movies.length > 0 &&
                             movies.map(movie => 
                                 <Item 
+                                    key={movie.imdbID}
                                     id={movie.imdbID}
                                     image={movie.Poster}
                                     title={movie.Title}
@@ -39,7 +40,7 @@ class Results extends Component {
                     <button 
                         id="more"
                         className="load-more"
-                        onClick={moreOnClick}
+                        onClick={onClickButton}
                     >
                         + movies...
                     </button>

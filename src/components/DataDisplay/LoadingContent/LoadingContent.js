@@ -8,7 +8,7 @@ const LoadingContent = props => {
     if (isLoading) {
         return (
             <div className="loading-content">
-                <div class="loading-content__wrapper">
+                <div className="loading-content__wrapper">
                     <p>{loadingText}</p>
                     <FontAwesomeIcon icon={faSpinner} size="3x" spin />
                 </div>
