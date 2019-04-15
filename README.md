@@ -1,6 +1,6 @@
 <h1>Welcome to Tela Filme</h1>
 
-<p >Hey, I'm a developer... not the marketing guy!</p>
+<br>
 
 
 <p>In this responsive single-page application you can browse through a huge variety of catalogs and search for your favorite movie information.</p>
