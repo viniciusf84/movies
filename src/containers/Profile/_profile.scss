@@ -34,6 +34,10 @@
     .text {
         margin: 0 30px 0 20px;
     }
+
+    .small {
+        @include pxToRem(13);
+    }
     
     strong {
         color: $text-3;

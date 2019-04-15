@@ -97,6 +97,10 @@ const SearchObs = observer(class Search extends Component {
 
     getResults = async (func, search, count) => {  
         
+        this.setState({
+            loading: true
+        })
+
         try {            
             const results = await func(search, count);        
 
@@ -131,7 +135,8 @@ const SearchObs = observer(class Search extends Component {
 
         } catch (error) {
             this.setState({               
-                message: error,                
+                message: error,
+                loading: false,             
             });
         }
     }    
