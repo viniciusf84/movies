@@ -2,15 +2,13 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilm } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import { observer, inject } from 'mobx-react';
 
 // Components
 import LoadingContent from '../../components/DataDisplay/LoadingContent';
 
 // service
 import Services from '../../utils/services';
-
-// Store
-import store from '../../stores/SearchStore';
 
 
 class Profile extends Component {
@@ -21,17 +19,12 @@ class Profile extends Component {
         data: {},
         message: undefined
     }    
-
-    store = {store}
-    
+   
 
     componentDidMount() {
         const { match: { params } } = this.props;
- 
-        this.setState({
-            movieId: params.movieId
-        },
-        () => this.getMovieData(this.state.movieId))
+        
+        this.getMovieData(params.movieId)
     }
 
     getMovieData = async id => {
@@ -68,6 +61,7 @@ class Profile extends Component {
    
     render() {
         const { data, loading,  data: { Title, Poster, Director, Actors, Genre, Plot, Website } , } = this.state;    
+        const { store } = this.props
 
         return(
            
@@ -144,4 +138,4 @@ class Profile extends Component {
     }
 }
 
-export default Profile;
+export default inject('store')(observer(Profile));

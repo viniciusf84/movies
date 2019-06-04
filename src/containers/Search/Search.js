@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { debounce } from 'lodash';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
 // components
 import SearchInput from '../../components/General/SearchInput';
@@ -12,7 +12,7 @@ import Results from '../Results';
 import Services from '../../utils/services';
 
 
-const SearchObs = observer(class Search extends Component {
+class Search extends Component {
     
     state = {
         loading: false,
@@ -169,6 +169,6 @@ const SearchObs = observer(class Search extends Component {
             </React.Fragment>
         )
     }
-})
+}
 
-export default SearchObs;
+export default inject('store')(observer(Search));
