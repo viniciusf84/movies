@@ -1,4 +1,5 @@
-import { action, decorate } from 'mobx';
+import { action, decorate, observable } from 'mobx';
+import { createContext } from 'react';
 
 class SearchStore {
     
@@ -25,13 +26,17 @@ class SearchStore {
      
 }
 
-decorate(SearchStore, {    
+decorate(SearchStore, { 
+    search: observable,
+    data: observable,
+    count: observable,
+    more: observable,   
     setSearchData: action,
     setSearchString: action,
     setSearchPage: action,
     setMoreButton: action
 });
 
-const store = window.store = new SearchStore();
+// const store = window.store = new SearchStore();
 
-export default store;
+export const SearchStoreContext = createContext(new SearchStore());

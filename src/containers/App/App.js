@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Provider } from "mobx-react";
 
@@ -14,25 +14,25 @@ import Profile from "../Profile"
 import ScrollToTop from '../../utils/ScrollToTop';
 
 // Store
-import store from '../../stores/SearchStore';
+import { SearchStoreContext } from '../../stores/SearchStore';
 
 
-class App extends Component {
+const App = () => {
+    const searchContext = useContext(SearchStoreContext);
+    
+    return (
+        <Provider store={searchContext}>
+            <Router>
+                <ScrollToTop>
+                    <Header pageTitle="TELAFILME" />
+                    <Route exact path="/" component={Home} />                    
+                    <Route path="/profile/:movieId" component={Profile} />
+                    <Footer text="TelaFilme 2019 - Todos os direitos reservados" />    
+                </ScrollToTop>
+            </Router>
+        </Provider>
+    );
 
-    render() {
-        return (
-            <Provider store={store}>
-                <Router>
-                    <ScrollToTop>
-                        <Header pageTitle="TELAFILME" />
-                        <Route exact path="/" component={Home} />                    
-                        <Route path="/profile/:movieId" component={Profile} />
-                        <Footer text="TelaFilme 2019 - Todos os direitos reservados" />    
-                    </ScrollToTop>
-                </Router>
-            </Provider>
-        );
-    }
 }
 
 export default App;

@@ -29,7 +29,7 @@ class Search extends Component {
         const { store } = this.props;
         
         if(store.data.length > 0) { // brings data from store
-            console.log('mount')
+            
             this.setState({
                 search: store.search,
                 data: store.data,
@@ -53,7 +53,6 @@ class Search extends Component {
        
         if (!this.state.hasData) { // there's no data from store        
             if(prevState.search !== this.state.search) {
-                console.log(`antes: ${prevState.search} depois: ${this.state.search}`)
                 this.setState({
                     count: 1,
                     data: [],
