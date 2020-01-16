@@ -1,18 +1,13 @@
-import Api from './Api';
+import Api from "./Api";
 
-class Services {
-
-  static titleSearch(query, page) {
-    return Api.get(`type=movie&s=${query}&page=${page}`);
-  } 
-
-  static typeSearch(query, page) {
-    return Api.get(`type=${query}&page=${page}`);
-  } 
-
-  static getData(id) {
-    return Api.get(`i=${id}`);
-  }
+export function titleSearch(query, page) {
+  return Api.get(`type=movie&s=${query}&page=${page}`);
 }
 
-export default Services;
+export function typeSearch(query, page) {
+  return Api.get(`type=${query}&page=${page}`);
+}
+
+export function getData(id) {
+  return Api.get(`i=${id}`);
+}

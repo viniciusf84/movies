@@ -1,173 +1,127 @@
-import React, { Component } from 'react';
-import { debounce } from 'lodash';
-import { inject, observer } from 'mobx-react';
+import React, { useState, useEffect, useContext } from "react";
+import { debounce } from "lodash";
+import { SearchContext } from "../../stores/SearchStore";
 
 // components
-import SearchInput from '../../components/General/SearchInput';
+import SearchInput from "../../components/General/SearchInput";
 
 // containers
-import Results from '../Results';
+import Results from "../Results";
 
 // service
-import Services from '../../utils/services';
+import { titleSearch } from "../../utils/services";
 
+export default function Search(props) {
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [hasData, setHasData] = useState(false);
+  const store = useContext(SearchContext);
+  const {
+    setSearchData,
+    setSearchString,
+    setSearchPage,
+    setMoreButton
+  } = store.actions;
 
-class Search extends Component {
-    
-    state = {
-        loading: false,
-        search: '',
-        data: [],
-        count: 1,
-        more: false,
-        message: '',
-        hasData: false
-    }    
+  const onHandleChange = debounce(value => {
+    if (value.length > 3) {
+      setLoading(true);
+      setSearchString(value);
+      setMessage("");
+      setSearchData([]);
+      setHasData(false);
+      getResults(value, 1); //callback
+    }
+  }, 600);
 
-    componentDidMount() { 
-        
-        const { store } = this.props;
-        
-        if(store.data.length > 0) { // brings data from store
-            
-            this.setState({
-                search: store.search,
-                data: store.data,
-                count: store.count,
-                more: store.more,
-                message: `Results for "${store.search}"`,
-                hasData: true
-            })
+  async function getResults(search, count) {
+    setLoading(true);
 
-        } else {
+    try {
+      const results = await titleSearch(search, count);
 
-            this.setState({
-                search: 'Batman' //TODO: get a real parameter for the first search
-            },
-            () => this.getResults(Services.titleSearch, this.state.search, this.state.count))
+      if (results.data.Response === "False") {
+        // error
+        setLoading(false);
+        setSearchData([]);
+        setMessage(results.data.Error);
+      } else {
+        // success
+        setLoading(false);
+        setSearchData(
+          search === store.search
+            ? store.data.concat(results.data.Search)
+            : results.data.Search
+        );
+        setMessage(`Results for "${search}"`);
+      }
 
-        }
-    }    
+      // if there is more content to load
+      if (parseInt(results.data.totalResults) > store.data.length) {
+        setMoreButton(true);
+        setSearchPage(count + 1);
+      } else {
+        setMoreButton(false);
+      }
+    } catch (error) {
+      setMessage(error);
+      setLoading(false);
+    }
+  }
 
-    componentDidUpdate(prevProps, prevState) {
-       
-        if (!this.state.hasData) { // there's no data from store        
-            if(prevState.search !== this.state.search) {
-                this.setState({
-                    count: 1,
-                    data: [],
-                    message: 'Loading'
-                })
-                
-                if(this.state.search === '') {
-                    this.setState({ 
-                        message: ''
-                    })
-                }
-            }  
-        }      
+  useEffect(() => {
+    if (store.data && store.data.length > 0) {
+      // brings data from store
+
+      setMessage(`Results for "${store.search}"`);
+      setHasData(true);
+    } else {
+      setSearchString("Batman");
     }
 
-    componentWillUnmount() {
-        // update store
-        const { store } = this.props;
+    // unmount
+    return () => {
+      setSearchData(store.data);
+      setSearchString(store.search);
+      setSearchPage(store.count);
+      setMoreButton(store.more);
+    };
+  }, []);
 
-        store.setSearchData(this.state.data);
-        store.setSearchString(this.state.search);
-        store.setSearchPage(this.state.count);
-        store.setMoreButton(this.state.more)
+  useEffect(() => {
+    if (store.search.length > 0) {
+      getResults(store.search, store.count);
+      setSearchPage(1);
+      setMessage("Loading");
+
+      if (store.search === "") {
+        setMessage("");
+      }
     }
+  }, [store.search]);
 
-    onHandleChange = debounce((value) => {   
-        
-        if (value) {                    
-            this.setState( prevState => ({ 
-                loading: true,             
-                search: value, 
-                message: '',
-                data: [],
-                hasData: false  
-            }),
-            () => this.getResults(Services.titleSearch, value, 1) //callback
-            );
-        }
+  return (
+    <>
+      <section className="search-form">
+        <div className="wrapper container-fluid">
+          <h2>{props.title}</h2>
 
-    }, 600);
+          <SearchInput
+            name="movie-search-input"
+            placeholder="Type here..."
+            onChange={e => onHandleChange(e.target.value, store.count)}
+          />
+        </div>
+      </section>
 
-    getResults = async (func, search, count) => {  
-        
-        this.setState({
-            loading: true
-        })
-
-        try {            
-            const results = await func(search, count);        
-
-            // error
-            if(results.data.Error) {
-                this.setState({
-                    loading: false,
-                    data: [],
-                    message: results.data.Error
-                });
-                
-                
-            } else {  // success  
-                this.setState(prevState => ({
-                    loading: false,
-                    data: prevState.search === search ? prevState.data.concat(results.data.Search) : results.data.Search,                    
-                    message: `Results for "${search}"`,                     
-                }));
-                
-                // if there is more content to load
-                if(parseInt(results.data.totalResults) > this.state.data.length) {
-                    this.setState(prevState => ({
-                        more: true,
-                        count: prevState.count + 1
-                    }))
-                } else {
-                    this.setState({
-                        more: false,                    
-                    })
-                }              
-            }            
-
-        } catch (error) {
-            this.setState({               
-                message: error,
-                loading: false,             
-            });
-        }
-    }    
-
-    render() {
-        return(
-            <React.Fragment>                
-                <section className='search-form'>
-
-                    <div className="wrapper container-fluid"> 
-                        <h2>{this.props.title}</h2>
-                        
-                        <SearchInput                               
-                            name='movie-search-input'
-                            placeholder="Type here..."
-                            onChange={e => this.onHandleChange(e.target.value, this.state.count)}
-                        />              
-                    </div>
-
-                </section>
-
-                <Results 
-                    loading={this.state.loading}
-                    search={this.state.search}
-                    movies={this.state.data} 
-                    title={this.state.message} 
-                    more={this.state.more}
-                    onClickButton={() => this.getResults(Services.titleSearch, this.state.search, this.state.count)}
-                /> 
-            </React.Fragment>
-        )
-    }
+      <Results
+        loading={loading}
+        search={store.search}
+        movies={store.data}
+        title={message}
+        more={store.more}
+        onClickButton={() => getResults(store.search, store.count)}
+      />
+    </>
+  );
 }
-
-export default inject('store')(observer(Search));
