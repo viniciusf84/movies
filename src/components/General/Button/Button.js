@@ -1,32 +1,30 @@
-import React, { Component, Fragment } from 'react';
+import React from 'react';
 import Icon from '../../General/Icon';
 import { Link } from 'react-router-dom';
 
-class ValidateIcon extends Component {
+function ValidateIcon(props) {
+	const { text, icon, link, disabled } = props;
 
-    render() {
-        const { text, icon, link, disabled } = this.props;
-
-       return (
-           <div className="bottom">
-                <button className={link ? "btn btn-primary" : "btn btn-primary no-link"} disabled={disabled}>
-                    {link &&
-                    <Link to={link}>
-                        <span>
-                            {text}
-                        </span> 
-                        <Icon icon={icon} />
-                    </Link>
-                    }
-                    {!link &&
-                    <Fragment>
-                        {text} <Icon icon={icon} />
-                    </Fragment>
-                    }
-                </button>
-           </div>
-        );
-    }
+	return (
+		<div className="bottom">
+			<button
+				className={link ? 'btn btn-primary' : 'btn btn-primary no-link'}
+				disabled={disabled}
+			>
+				{link && (
+					<Link to={link}>
+						<span>{text}</span>
+						<Icon icon={icon} />
+					</Link>
+				)}
+				{!link && (
+					<>
+						{text} <Icon icon={icon} />
+					</>
+				)}
+			</button>
+		</div>
+	);
 }
 
 export default ValidateIcon;
