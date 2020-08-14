@@ -1,64 +1,69 @@
 @include fadeIn();
 
 .details {
-    opacity: 1;
-    animation: fadeIn 1s;
-    margin-bottom: 60px;
+	opacity: 1;
+	animation: fadeIn 1s;
+	margin-bottom: 60px;
 
-    h1 {
-        @include pxToRem(40);
-        margin: 0 0 30px;
-    }
+	h1 {
+		@include pxToRem(40);
+		margin: 0 0 30px;
+	}
 
-    figure.poster {
-        margin: 0;
-        @include centerContent();
-        min-height: 300px;
-        background-color: $background-3;        
+	figure.poster {
+		margin: 0;
+		@include centerContent();
+		min-height: 300px;
+		background-color: $background-3;
 
-        img {
-            width: 100%;
-        }
-    }
+		img {
+			width: 100%;
+		}
+	}
 
-    a.back {    
-        display: inline-block;
-        background-color: $yellow;
-        color: $black;
-        padding: 10px 16px;   
-        margin: 30px 0 40px;   
-        @include transition(background-color, .2s, ease-out);
-        
-        &:hover {
-            background-color: $black;
-            color: $yellow;
-        }
-    }
+	a.back {
+		display: inline-block;
+		background-color: $yellow;
+		color: $black;
+		padding: 10px 16px;
+		margin: 30px 0 40px;
+		@include transition(background-color, 0.2s, ease-out);
 
-    
-    .text {
-        margin: 0 30px 0 20px;
+		&:hover {
+			background-color: $black;
+			color: $yellow;
+		}
+	}
 
-        p {
-            margin-bottom: .76rem;
-        }
-    }
+	.text {
+		margin: 0 30px 0 20px;
 
-    .small {
-        @include pxToRem(13);
-    }
-    
-    strong {
-        color: $text-3;
-        font-weight: normal;
-    }
-    
-    .plot {
-        margin-top: 2rem;
-        color: $text-3;
-    }
-    
-    a {
-        color: $yellow;
-    }
+		p {
+			margin-bottom: 0.76rem;
+		}
+
+		@include mediaQueries(sm, max) {
+			margin: 0;
+		}
+	}
+
+	.small {
+		display: block;
+		margin: 10px 0;
+		@include pxToRem(13);
+	}
+
+	strong {
+		color: $text-3;
+		font-weight: normal;
+	}
+
+	.plot {
+		margin-top: 2rem;
+		color: $text-3;
+	}
+
+	a {
+		color: $yellow;
+	}
 }
