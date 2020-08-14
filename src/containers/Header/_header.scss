@@ -1,23 +1,24 @@
-.page-header { 
-    display: flex;
-    padding: 10px 2rem;
-    background-color: rgba(0, 0, 0, .3);
-    height: 60px;
-    align-items: center;
+.page-header {
+	display: flex;
+	padding: 10px 2rem;
+	background-color: rgba(0, 0, 0, 0.3);
+	height: 60px;
+	align-items: center;
+	margin-bottom: 10px;
 
-    a {
-        color: $white;
-    }
+	a {
+		color: $white;
+	}
 
-    .brand {
-        background-color: $red;
-        border-radius: 4px;
-        padding: 0 10px;
-        height: 30px;
-        line-height: 30px;
-    }
-    
-    h1 {
-        @include pxToRem(22);
-    }
+	.brand {
+		background-color: $red;
+		border-radius: 4px;
+		padding: 0 10px;
+		height: 30px;
+		line-height: 30px;
+	}
+
+	h1 {
+		@include pxToRem(22);
+	}
 }
