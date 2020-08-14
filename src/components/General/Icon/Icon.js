@@ -1,15 +1,12 @@
-import React, { Component, } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-class Icon extends Component {
-
-    render() {
-       return (
-           <div className="icon-wrapper">
-                <FontAwesomeIcon icon={this.props.icon} />
-           </div>
-        );
-    }
+function Icon(props) {
+	return (
+		<div className="icon-wrapper">
+			<FontAwesomeIcon icon={props.icon} />
+		</div>
+	);
 }
 
 export default Icon;
