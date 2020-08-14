@@ -1,127 +1,138 @@
-import React, { useState, useEffect, useContext } from "react";
-import { debounce } from "lodash";
-import { SearchContext } from "../../stores/SearchStore";
+import React, { useState, useEffect, useContext } from 'react';
+import { debounce } from 'lodash';
+import { SearchContext } from '../../contexts/SearchContext';
 
 // components
-import SearchInput from "../../components/General/SearchInput";
+import SearchInput from '../../components/General/SearchInput';
 
 // containers
-import Results from "../Results";
+import Results from '../Results';
 
 // service
-import { titleSearch } from "../../utils/services";
+import { titleSearch } from '../../utils/services';
 
 export default function Search(props) {
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [hasData, setHasData] = useState(false);
-  const store = useContext(SearchContext);
-  const {
-    setSearchData,
-    setSearchString,
-    setSearchPage,
-    setMoreButton
-  } = store.actions;
+	const [message, setMessage] = useState('');
+	const [loading, setLoading] = useState(false);
+	const [results, setResults] = useState([]);
+	const [totalResults, setTotalResults] = useState(null);
+	const searchContext = useContext(SearchContext);
+	const { data, search, page, updateList, displayMoreButton } = searchContext;
+	const {
+		setSearchData,
+		setSearchString,
+		setSearchPage,
+		setUpdateList,
+		setDisplayMoreButton,
+	} = searchContext.actions;
 
-  const onHandleChange = debounce(value => {
-    if (value.length > 3) {
-      setLoading(true);
-      setSearchString(value);
-      setMessage("");
-      setSearchData([]);
-      setHasData(false);
-      getResults(value, 1); //callback
-    }
-  }, 600);
+	const onHandleChange = debounce((value) => {
+		if (value.length > 3) {
+			setUpdateList(true);
+			setSearchString(value);
+			setMessage('');
+		}
+	}, 600);
 
-  async function getResults(search, count) {
-    setLoading(true);
+	function onMovieClick() {
+		setUpdateList(true);
+		setSearchPage(page + 1);
+	}
 
-    try {
-      const results = await titleSearch(search, count);
+	async function getResults(searchStr, pageNumber) {
+		setLoading(true);
 
-      if (results.data.Response === "False") {
-        // error
-        setLoading(false);
-        setSearchData([]);
-        setMessage(results.data.Error);
-      } else {
-        // success
-        setLoading(false);
-        setSearchData(
-          search === store.search
-            ? store.data.concat(results.data.Search)
-            : results.data.Search
-        );
-        setMessage(`Results for "${search}"`);
-      }
+		try {
+			const response = await titleSearch(searchStr, pageNumber);
 
-      // if there is more content to load
-      if (parseInt(results.data.totalResults) > store.data.length) {
-        setMoreButton(true);
-        setSearchPage(count + 1);
-      } else {
-        setMoreButton(false);
-      }
-    } catch (error) {
-      setMessage(error);
-      setLoading(false);
-    }
-  }
+			if (response.data.Response === 'False') {
+				// error
+				setResults([]);
+				setMessage(response.data.Error);
+			} else {
+				// success
+				setResults(response.data.Search);
+				setMessage(`Results for "${searchStr}"`);
+				setTotalResults(parseInt(response.data.totalResults));
+			}
+		} catch (error) {
+			setMessage(error);
+		}
 
-  useEffect(() => {
-    if (store.data && store.data.length > 0) {
-      // brings data from store
+		setLoading(false);
+	}
 
-      setMessage(`Results for "${store.search}"`);
-      setHasData(true);
-    } else {
-      setSearchString("Batman");
-    }
+	useEffect(() => {
+		if (data && data.length > 0) {
+			// brings data from context
 
-    // unmount
-    return () => {
-      setSearchData(store.data);
-      setSearchString(store.search);
-      setSearchPage(store.count);
-      setMoreButton(store.more);
-    };
-  }, []);
+			setMessage(`Results for "${search}"`);
+		} else {
+			setSearchString('Batman');
+		}
+	}, []);
 
-  useEffect(() => {
-    if (store.search.length > 0) {
-      getResults(store.search, store.count);
-      setSearchPage(1);
-      setMessage("Loading");
+	useEffect(() => {
+		if (search === '') {
+			setMessage('');
+		}
 
-      if (store.search === "") {
-        setMessage("");
-      }
-    }
-  }, [store.search]);
+		if (search.length > 0 && updateList) {
+			setSearchData([]);
+			setMessage('Loading');
 
-  return (
-    <>
-      <section className="search-form">
-        <div className="wrapper container-fluid">
-          <h2>{props.title}</h2>
+			if (page === 1) {
+				getResults(search, 1);
+			} else {
+				setSearchPage(1);
+			}
+		}
+	}, [search]);
 
-          <SearchInput
-            name="movie-search-input"
-            placeholder="Type here..."
-            onChange={e => onHandleChange(e.target.value, store.count)}
-          />
-        </div>
-      </section>
+	useEffect(() => {
+		if (page && updateList) {
+			getResults(search, page);
+		}
+	}, [page]);
 
-      <Results
-        loading={loading}
-        search={store.search}
-        movies={store.data}
-        title={message}
-        more={store.more}
-        onClickButton={() => getResults(store.search, store.count)}
-      />
-    </>
-  );
+	useEffect(() => {
+		if (results.length > 0) {
+			if (page === 1) {
+				setSearchData(results);
+			} else {
+				setSearchData([...data, ...results]);
+			}
+		}
+	}, [results]);
+
+	useEffect(() => {
+		if (data.length > 0 && totalResults) {
+			setDisplayMoreButton(totalResults > data.length);
+		}
+	}, [data, totalResults]);
+
+	return (
+		<>
+			<section className="search-form">
+				<div className="wrapper container-fluid">
+					<h2>{props.title}</h2>
+
+					<SearchInput
+						name="movie-search-input"
+						placeholder="Type here..."
+						onChange={(e) => onHandleChange(e.target.value)}
+					/>
+				</div>
+			</section>
+
+			<Results
+				loading={loading}
+				search={search}
+				movies={data}
+				title={message}
+				more={displayMoreButton}
+				onClickButton={() => onMovieClick()}
+			/>
+		</>
+	);
 }
