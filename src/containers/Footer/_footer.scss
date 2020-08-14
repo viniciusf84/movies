@@ -1,10 +1,10 @@
-.footer {   
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    background-color: $black;
+.footer {
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	background-color: $black;
 
-    p {
-        @include pxToRem(12)
-    }
-} 
+	p {
+		@include pxToRem(12);
+	}
+}
