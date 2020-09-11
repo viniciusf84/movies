@@ -18,30 +18,29 @@ export default function Profile(props) {
 	const store = useContext(SearchContext);
 	const { Title, Poster, Director, Actors, Genre, Year, Plot, Website } = data;
 
-	async function getPageMovieData(e) {
-		setIsLoading(true);
-
-		try {
-			const results = await getMovieData(e);
-
-			if (results.data.Error) {
-				// error
-				setIsLoading(true);
-				setData({});
-				setMessage(results.data.Error);
-			} else {
-				// success
-				setIsLoading(false);
-				setData(results.data);
-				setMessage(undefined);
-			}
-		} catch (error) {
-			setIsLoading(false);
-			setMessage(error);
-		}
-	}
-
 	useEffect(() => {
+		async function getPageMovieData(e) {
+			setIsLoading(true);
+
+			try {
+				const results = await getMovieData(e);
+
+				if (results.data.Error) {
+					// error
+					setData({});
+					setMessage(results.data.Error);
+				} else {
+					// success
+					setData(results.data);
+					setMessage(undefined);
+				}
+			} catch (error) {
+				setMessage(error);
+			}
+
+			setIsLoading(false);
+		}
+
 		getPageMovieData(params.movieId);
 	}, []);
 

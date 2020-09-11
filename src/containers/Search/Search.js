@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { debounce } from 'lodash';
 import { SearchContext } from '../../contexts/SearchContext';
 
@@ -26,20 +26,23 @@ export default function Search(props) {
 		setDisplayMoreButton,
 	} = searchContext.actions;
 
-	const onHandleChange = debounce((value) => {
-		if (value.length > 3) {
-			setUpdateList(true);
-			setSearchString(value);
-			setMessage('');
-		}
-	}, 600);
+	const onHandleChange = useCallback(
+		debounce((value) => {
+			if (value.length > 3) {
+				setUpdateList(true);
+				setSearchString(value);
+				setMessage('');
+			}
+		}, 600),
+		[],
+	);
 
-	function onMovieClick() {
+	const onMovieClick = useCallback(() => {
 		setUpdateList(true);
 		setSearchPage(page + 1);
-	}
+	}, [page]);
 
-	async function getResults(searchStr, pageNumber) {
+	const getResults = useCallback(async (searchStr, pageNumber) => {
 		setLoading(true);
 
 		try {
@@ -60,7 +63,7 @@ export default function Search(props) {
 		}
 
 		setLoading(false);
-	}
+	}, []);
 
 	useEffect(() => {
 		if (data && data.length > 0) {
