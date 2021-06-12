@@ -3,22 +3,31 @@ import React, { createContext, useReducer } from 'react';
 const SearchContext = createContext();
 
 const initialState = {
+  isLoading: false,
 	search: '',
 	data: [],
 	page: null,
 	updateList: true,
 	displayMoreButton: false,
+  message: '',
 };
 
 const types = {
+  SET_LOADING: 'SET_LOADING',
 	SEARCH_STRING: 'SEARCH_STRING',
 	DATA: 'DATA',
 	PAGE: 'PAGE',
 	UPDATE_LIST: 'UPDATE_LIST',
+  SET_MESSAGE: 'SET_MESSAGE',
 };
 
 const reducer = (state, action) => {
 	switch (action.type) {
+    case types.SET_LOADING:
+			return {
+				...state,
+				isLoading: action.payload,
+			};
 		case types.SEARCH_STRING:
 			return {
 				...state,
@@ -49,6 +58,12 @@ const reducer = (state, action) => {
 				displayMoreButton: action.payload,
 			};
 
+    case types.SET_MESSAGE:
+      return {
+        ...state,
+        message: action.payload,
+      };
+
 		default:
 			return {
 				...state,
@@ -57,6 +72,12 @@ const reducer = (state, action) => {
 };
 
 const actions = (dispatch) => ({
+  setIsLoading: (item) =>
+		dispatch({
+			type: types.SET_LOADING,
+			payload: item,
+		}),
+
 	setSearchString: (item) =>
 		dispatch({
 			type: types.SEARCH_STRING,
@@ -85,6 +106,12 @@ const actions = (dispatch) => ({
 	setUpdateList: (item) =>
 		dispatch({
 			type: types.UPDATE_LIST,
+			payload: item,
+		}),
+
+  setMessage: (item) =>
+		dispatch({
+			type: types.SET_MESSAGE,
 			payload: item,
 		}),
 });
