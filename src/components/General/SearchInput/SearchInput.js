@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+// import './_searchinput.scss';
 
 function SearchInput(props) {
 	const { name, placeholder, onChange } = props;
