@@ -8,12 +8,12 @@
 
 /* Components styles */
 @import '../../components/DataDisplay/LoadingContent/loadingContent';
+@import '../../components/General/SearchInput/serachinput';
 
 /* Containers styles */
 @import '../../containers/Header/header';
 @import '../../containers/Footer/footer';
 @import '../../containers/Home/home';
-@import '../../containers/Search/search';
 @import '../../containers/Results/results';
 @import '../../containers/Profile/profile';
 @import '../../containers/App/app';
