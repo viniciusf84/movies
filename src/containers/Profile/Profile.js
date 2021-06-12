@@ -2,20 +2,21 @@ import React, { useState, useEffect, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilm } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+
+// hooks
 import { SearchContext } from '../../contexts/SearchContext';
+
 // Components
 import LoadingContent from '../../components/DataDisplay/LoadingContent';
 
 // service
 import { getMovieData } from '../../utils/services';
 
-export default function Profile(props) {
-	const { params } = props.match;
-
+export default function Profile({ match: { params }, history }) {
 	const [isLoading, setIsLoading] = useState(0);
 	const [data, setData] = useState({});
 	const [message, setMessage] = useState(undefined);
-	const store = useContext(SearchContext);
+	const searchContext = useContext(SearchContext);
 	const { Title, Poster, Director, Actors, Genre, Year, Plot, Website } = data;
 
 	useEffect(() => {
@@ -44,21 +45,31 @@ export default function Profile(props) {
 		getPageMovieData(params.movieId);
 	}, []);
 
+  useEffect(() => {
+    // back to movies list and updates search
+    if(Object.keys(data).length > 0 && searchContext.search) {
+      history.push('/');
+      searchContext.actions.setUpdateList(true);
+    }
+  }, [searchContext.search])
+
 	return (
 		<section className="movie-profile">
 			<div className="wrapper container-fluid">
 				{message && <h3>{message}</h3>}
+
 				<LoadingContent
 					isLoading={isLoading}
 					loadingText="Loading movie details"
 				>
 					{Object.keys(data).length > 0 ? (
 						<article className="details">
-							{store.search && (
+							{searchContext.search && (
 								<span className="small">
-									You've searched for "{store.search}"{' '}
+									You've searched for "{searchContext.search}"{' '}
 								</span>
 							)}
+
 							<h1>{Title}</h1>
 
 							<div className="row">
@@ -70,6 +81,7 @@ export default function Profile(props) {
 											<img src={Poster} alt={Title} />
 										)}
 									</figure>
+
 									<Link className="back" to="/">
 										Back to search
 									</Link>
