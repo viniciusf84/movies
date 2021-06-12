@@ -1,13 +1,13 @@
 import React from 'react';
 
 // Containers
-import SearchObs from '../Search';
+import Results from '../Results';
 
 function Home() {
 	return (
 		<section id="home" className="home">
 			<main className="main-content">
-				<SearchObs title="Search for your favorite movie" />
+        <Results />
 			</main>
 		</section>
 	);
