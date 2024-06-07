@@ -3,60 +3,22 @@ import React, { createContext, useReducer } from 'react';
 const SearchContext = createContext();
 
 const initialState = {
-  isLoading: false,
-	search: '',
-	data: [],
-	page: null,
-	updateList: true,
-	displayMoreButton: false,
-  message: '',
+  searchTerm: '',
+  message: 'Use the search bar and find your favorite movie',
 };
 
 const types = {
-  SET_LOADING: 'SET_LOADING',
-	SEARCH_STRING: 'SEARCH_STRING',
-	DATA: 'DATA',
-	PAGE: 'PAGE',
-	UPDATE_LIST: 'UPDATE_LIST',
+  SEARCH_TERM: 'SEARCH_TERM',
   SET_MESSAGE: 'SET_MESSAGE',
 };
 
 const reducer = (state, action) => {
-	switch (action.type) {
-    case types.SET_LOADING:
-			return {
-				...state,
-				isLoading: action.payload,
-			};
-		case types.SEARCH_STRING:
-			return {
-				...state,
-				search: action.payload.trim(),
-			};
-
-		case types.DATA:
-			return {
-				...state,
-				data: action.payload,
-			};
-
-		case types.PAGE:
-			return {
-				...state,
-				page: action.payload,
-			};
-
-		case types.UPDATE_LIST:
-			return {
-				...state,
-				updateList: action.payload,
-			};
-
-		case types.MORE_BUTTON:
-			return {
-				...state,
-				displayMoreButton: action.payload,
-			};
+  switch (action.type) {
+    case types.SEARCH_TERM:
+      return {
+        ...state,
+        searchTerm: action.payload.trim(),
+      };
 
     case types.SET_MESSAGE:
       return {
@@ -64,68 +26,35 @@ const reducer = (state, action) => {
         message: action.payload,
       };
 
-		default:
-			return {
-				...state,
-			};
-	}
+    default:
+      return state;
+  }
 };
 
 const actions = (dispatch) => ({
-  setIsLoading: (item) =>
-		dispatch({
-			type: types.SET_LOADING,
-			payload: item,
-		}),
-
-	setSearchString: (item) =>
-		dispatch({
-			type: types.SEARCH_STRING,
-			payload: item,
-		}),
-
-	setSearchData: (item) => {
-		dispatch({
-			type: types.DATA,
-			payload: item,
-		});
-	},
-
-	setSearchPage: (item) =>
-		dispatch({
-			type: types.PAGE,
-			payload: item,
-		}),
-
-	setDisplayMoreButton: (item) =>
-		dispatch({
-			type: types.MORE_BUTTON,
-			payload: item,
-		}),
-
-	setUpdateList: (item) =>
-		dispatch({
-			type: types.UPDATE_LIST,
-			payload: item,
-		}),
+  setSearchString: (item) =>
+    dispatch({
+      type: types.SEARCH_TERM,
+      payload: item,
+    }),
 
   setMessage: (item) =>
-		dispatch({
-			type: types.SET_MESSAGE,
-			payload: item,
-		}),
+    dispatch({
+      type: types.SET_MESSAGE,
+      payload: item,
+    }),
 });
 
 const SearchContextProvider = (props) => {
-	const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-	return (
-		<SearchContext.Provider
-			value={{ ...state, dispatch, actions: actions(dispatch) }}
-		>
-			{props.children}
-		</SearchContext.Provider>
-	);
+  return (
+    <SearchContext.Provider
+      value={{ ...state, dispatch, actions: actions(dispatch) }}
+    >
+      {props.children}
+    </SearchContext.Provider>
+  );
 };
 
 export { SearchContext, SearchContextProvider };

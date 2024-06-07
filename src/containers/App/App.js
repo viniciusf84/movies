@@ -1,5 +1,6 @@
-import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Containers
 import Header from '../Header';
@@ -16,20 +17,27 @@ import ScrollToTop from '../../utils/ScrollToTop';
 import { SearchContextProvider } from '../../contexts/SearchContext';
 
 const App = () => {
-	return (
-		<SearchContextProvider>
-			<Router>
-				<ScrollToTop>
-					<Header pageTitle="TELAFILME" />
-					<Route exact path="/" component={Home} />
-					<Route path="/profile/:movieId" component={Profile} />
-					<Footer
-						text={`TelaFilme ${new Date().getFullYear()} - Todos os direitos reservados`}
-					/>
-				</ScrollToTop>
-			</Router>
-		</SearchContextProvider>
-	);
+  const queryClient = new QueryClient();
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <SearchContextProvider>
+        <Router>
+          <ScrollToTop>
+            <Header pageTitle="TELAFILME" />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/profile/:movieId" element={<Profile />} />
+            </Routes>
+            <Footer
+              text={`TelaFilme ${new Date().getFullYear()} - Todos os direitos reservados`}
+            />
+          </ScrollToTop>
+        </Router>
+      </SearchContextProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
 };
 
 export default App;

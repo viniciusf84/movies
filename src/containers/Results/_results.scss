@@ -1,105 +1,105 @@
 @include fadeIn();
 
 .result-list {
-	margin: 0 0 60px;
+  margin: 0 0 60px;
 
-	h4 {
-		display: block;
-		width: 100%;
-		margin-bottom: 20px;
-	}
+  h4 {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+  }
 
-	&__item {
-		margin: 10px 0 0;
-		opacity: 1;
-		animation: fadeIn 0.3s;
+  &__item {
+    margin: 10px 0 0;
+    opacity: 1;
+    animation: fadeIn 0.3s;
 
-		&:hover {
-			a {
-				color: $yellow;
-			}
-		}
+    &:hover {
+      a {
+        color: $yellow;
+      }
+    }
 
-		a {
-			color: $white;
-		}
+    a {
+      color: $white;
+    }
 
-		.wrap {
-			text-align: center;
-			position: relative;
-			height: 250px;
-			cursor: pointer;
-			@include transition(background-color, 0.2s, ease-out);
-		}
+    .wrap {
+      text-align: center;
+      position: relative;
+      height: 250px;
+      cursor: pointer;
+      @include transition(background-color, 0.2s, ease-out);
+    }
 
-		.icon__wrapper {
-			background-color: $black;
-			@include centerContent();
+    .icon__wrapper {
+      background-color: $black;
+      @include centerContent();
 
-			&:hover {
-				background-color: $background-3;
-			}
-		}
+      &:hover {
+        background-color: $background-3;
+      }
+    }
 
-		.img__wrapper {
-			background-color: $background-3;
+    .img__wrapper {
+      background-color: $background-3;
 
-			img {
-				height: 100%;
-				width: 100%;
-				object-fit: cover;
-			}
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
 
-			&:after {
-				content: '';
-				display: block;
-				background-color: transparent;
-				width: 100%;
-				height: 100%;
-				position: absolute;
-				top: 0;
-				z-index: 1;
-				@include transition(background-color, 0.2s, ease-out);
-			}
+      &:after {
+        content: '';
+        display: block;
+        background-color: transparent;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        z-index: 1;
+        @include transition(background-color, 0.2s, ease-out);
+      }
 
-			&:hover {
-				&:after {
-					content: 'see full profile';
-					background-color: rgba(0, 0, 0, 0.666);
-					color: $white;
-					@include centerContent();
-				}
-			}
-		}
+      &:hover {
+        &:after {
+          content: 'see full profile';
+          background-color: rgba(0, 0, 0, 0.666);
+          color: $white;
+          @include centerContent();
+        }
+      }
+    }
 
-		.title {
-			cursor: pointer;
+    .title {
+      cursor: pointer;
 
-			h5 {
-				padding: 10px 0 20px;
-				margin: 0;
-			}
-		}
-	}
+      h5 {
+        padding: 10px 0 20px;
+        margin: 0;
+      }
+    }
+  }
 }
 
 .load-more {
-	@include pxToRem(18);
-	width: 30%;
-	display: block;
-	margin: 30px auto 100px;
-	border: none;
-	color: $text-2;
-	background-color: $white;
-	line-height: 3rem;
-	cursor: pointer;
-	font-weight: bold;
+  @include pxToRem(18);
+  width: 30%;
+  display: block;
+  margin: 30px auto 100px;
+  border: none;
+  color: $text-2;
+  background-color: $white;
+  line-height: 3rem;
+  cursor: pointer;
+  font-weight: bold;
 
-	&:hover {
-		background-color: $yellow;
-	}
+  &:hover {
+    background-color: $yellow;
+  }
 
-	@include mediaQueries(sm, max) {
-		width: 100%;
-	}
+  @include mediaQueries(sm, max) {
+    width: 100%;
+  }
 }

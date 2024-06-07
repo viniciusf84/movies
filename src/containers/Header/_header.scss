@@ -1,23 +1,22 @@
 .page-header {
-	padding: 1rem 0rem;
-	background-color: rgba(0, 0, 0, 0.3);
-	height: 60px;
-	margin-bottom: 10px;
+  padding: 1rem 0rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  height: 60px;
 
-	a {
-		color: $white;
-	}
+  a {
+    color: $white;
+  }
 
-	.brand {
-		background-color: $red;
-		border-radius: 4px;
-		padding: 0 10px;
-		height: 30px;
-		line-height: 30px;
-		width: 144px;
-	}
+  .brand {
+    background-color: $red;
+    border-radius: 4px;
+    padding: 0 10px;
+    height: 30px;
+    line-height: 30px;
+    width: 144px;
+  }
 
-	h1 {
-		@include pxToRem(22);
-	}
+  h1 {
+    @include pxToRem(22);
+  }
 }

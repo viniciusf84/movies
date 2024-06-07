@@ -1,13 +1,13 @@
 .home {
-	.home__icon {
-		margin-bottom: 30px;
-	}
+  .home__icon {
+    margin-bottom: 30px;
+  }
 
-	p {
-		@include pxToRem(13);
-	}
+  p {
+    @include pxToRem(13);
+  }
 
-	.btn {
-		margin-top: 50px;
-	}
+  .btn {
+    margin-top: 50px;
+  }
 }

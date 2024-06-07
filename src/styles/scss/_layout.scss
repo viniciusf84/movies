@@ -3,98 +3,98 @@
 *,
 ::after,
 ::before {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html,
 body {
-	min-height: 100%;
+  min-height: 100%;
 }
 
 #root {
-	min-height: 100vh;
+  min-height: 100vh;
 
-	> section {
-		padding-top: 40px;
-		min-height: calc(100vh - 100px);
-	}
+  > section {
+    padding-top: 40px;
+    min-height: calc(100vh - 100px);
+  }
 }
 
 body {
-	margin: 0;
-	padding: 0;
-	font-family: 'Open Sans', sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	background: $background-1;
-	color: $text-1;
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: $background-1;
+  color: $text-1;
 }
 
 h1,
 h2,
 h3 {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 p {
-	padding: 0;
-	margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 .btn {
-	@include pxToRem(14px);
-	border-radius: 0;
-	border: none;
-	cursor: pointer;
-	@include transition(background-color, 0.2s, ease-in);
+  @include pxToRem(14px);
+  border-radius: 0;
+  border: none;
+  cursor: pointer;
+  @include transition(background-color, 0.2s, ease-in);
 
-	&-primary {
-		max-width: 360px;
-		width: 100%;
-		@include pxToRem(13);
-		margin: 0 auto;
-		font-weight: bold;
+  &-primary {
+    max-width: 360px;
+    width: 100%;
+    @include pxToRem(13);
+    margin: 0 auto;
+    font-weight: bold;
 
-		:hover {
-			background: $background-2;
-		}
+    :hover {
+      background: $background-2;
+    }
 
-		:active,
-		:active a {
-			color: $btn-bg;
-		}
+    :active,
+    :active a {
+      color: $btn-bg;
+    }
 
-		a {
-			padding: 22px 15px;
-			display: flex;
-			justify-content: space-between;
-			text-decoration: none;
-			font-weight: bold;
-		}
+    a {
+      padding: 22px 15px;
+      display: flex;
+      justify-content: space-between;
+      text-decoration: none;
+      font-weight: bold;
+    }
 
-		&.no-link {
-			display: flex;
-			justify-content: space-between;
-			padding: 22px 15px;
-			background-color: $btn-bg;
-			color: $white;
+    &.no-link {
+      display: flex;
+      justify-content: space-between;
+      padding: 22px 15px;
+      background-color: $btn-bg;
+      color: $white;
 
-			&:disabled {
-				background-color: $text-3;
-				color: $text-2;
-				cursor: not-allowed;
-			}
-		}
-	}
+      &:disabled {
+        background-color: $text-3;
+        color: $text-2;
+        cursor: not-allowed;
+      }
+    }
+  }
 
-	.icon-wrapper {
-		margin-bottom: 0;
-	}
+  .icon-wrapper {
+    margin-bottom: 0;
+  }
 }
 
 /* \Layout */
