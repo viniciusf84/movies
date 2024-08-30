@@ -39,6 +39,7 @@ function Results() {
       onError: (error) => {
         setMessage(error.message);
       },
+      retry: false,
     });
 
   const displayMovies = useMemo(() => {
@@ -49,7 +50,12 @@ function Results() {
     if (isFetching || !searchTerm) {
       return null;
     }
-    return <p>No results found for "{searchTerm}".</p>;
+
+    return (
+      <div className="col-xs-12">
+        <p>No results found for "{searchTerm}".</p>
+      </div>
+    );
   }, [isFetching, searchTerm]);
 
   return (
@@ -58,18 +64,16 @@ function Results() {
 
       <section id="results" className="result-list">
         <div className="row">
-          <div className="col-xs-12">
-            {displayMovies.length > 0
-              ? displayMovies.map((movie) => (
-                  <Item
-                    key={movie.imdbID}
-                    id={movie.imdbID}
-                    image={movie.Poster}
-                    title={movie.Title}
-                  />
-                ))
-              : displayNoResults()}
-          </div>
+          {displayMovies.length > 0
+            ? displayMovies.map((movie) => (
+                <Item
+                  key={movie.imdbID}
+                  id={movie.imdbID}
+                  image={movie.Poster}
+                  title={movie.Title}
+                />
+              ))
+            : displayNoResults()}
         </div>
       </section>
 
