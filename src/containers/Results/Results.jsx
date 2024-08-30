@@ -1,4 +1,4 @@
-import { useContext, useCallback } from 'react';
+import { useContext, useMemo, useCallback } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { SearchContext } from '../../contexts/SearchContext';
 import { titleSearch } from '../../utils/services';
@@ -6,8 +6,7 @@ import LoadingContent from '../../components/DataDisplay/LoadingContent';
 import Item from './Item';
 
 function Results() {
-  const searchContext = useContext(SearchContext);
-  const { searchTerm, message, actions } = searchContext;
+  const { searchTerm, message, actions } = useContext(SearchContext);
   const { setMessage } = actions;
 
   const fetchResults = async ({ pageParam = 1 }) => {
@@ -27,11 +26,10 @@ function Results() {
       queryKey: ['searchResults', searchTerm],
       queryFn: fetchResults,
       enabled: !!searchTerm,
-      getNextPageParam: (lastPage, allPages) => {
-        if (lastPage.nextPage * 10 < lastPage.totalResults) {
-          return lastPage.nextPage;
-        }
-        return undefined;
+      getNextPageParam: (lastPage) => {
+        return lastPage.nextPage * 10 < lastPage.totalResults
+          ? lastPage.nextPage
+          : undefined;
       },
       staleTime: 5 * 60 * 1000, // 5 minutes
       cacheTime: 30 * 60 * 1000, // 30 minutes
@@ -43,15 +41,16 @@ function Results() {
       },
     });
 
-  const displayMovies = data?.pages.flatMap((page) => page.results) || [];
+  const displayMovies = useMemo(() => {
+    return data?.pages.flatMap((page) => page.results) || [];
+  }, [data?.pages]);
 
   const displayNoResults = useCallback(() => {
     if (isFetching || !searchTerm) {
       return null;
     }
-
     return <p>No results found for "{searchTerm}".</p>;
-  }, [searchContext, isFetching]);
+  }, [isFetching, searchTerm]);
 
   return (
     <div className="wrapper container-fluid">
@@ -79,7 +78,7 @@ function Results() {
       )}
 
       {hasNextPage && (
-        <button id="more" className="load-more" onClick={() => fetchNextPage()}>
+        <button id="more" className="load-more" onClick={fetchNextPage}>
           {isFetchingNextPage ? 'Loading more...' : '+ movies...'}
         </button>
       )}
