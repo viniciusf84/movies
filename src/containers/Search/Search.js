@@ -13,15 +13,17 @@ export default function Search() {
   const isAtHome = location.pathname === '/';
 
   const searchContext = useContext(SearchContext);
-  const { setSearchString } = searchContext.actions;
+  const { setSearchTerm } = searchContext.actions;
 
   const onHandleChange = debounce((value) => {
     if (value.length > 3) {
-      setSearchString(value);
+      setSearchTerm(value);
 
       if (!isAtHome) {
         navigate('/');
       }
+    } else {
+      setSearchTerm('');
     }
   }, 600);
 

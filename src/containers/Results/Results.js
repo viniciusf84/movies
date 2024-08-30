@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useCallback } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { SearchContext } from '../../contexts/SearchContext';
 import { titleSearch } from '../../utils/services';
@@ -45,22 +45,32 @@ function Results() {
 
   const displayMovies = data?.pages.flatMap((page) => page.results) || [];
 
+  const displayNoResults = useCallback(() => {
+    if (isFetching || !searchTerm) {
+      return null;
+    }
+
+    return <p>No results found for "{searchTerm}".</p>;
+  }, [searchContext, isFetching]);
+
   return (
     <div className="wrapper container-fluid">
       <h4>{message}</h4>
 
       <section id="results" className="result-list">
         <div className="row">
-          {displayMovies.length > 0
-            ? displayMovies.map((movie) => (
-                <Item
-                  key={movie.imdbID}
-                  id={movie.imdbID}
-                  image={movie.Poster}
-                  title={movie.Title}
-                />
-              ))
-            : !isFetching && <p>No results found.</p>}
+          <div className="col-xs-12">
+            {displayMovies.length > 0
+              ? displayMovies.map((movie) => (
+                  <Item
+                    key={movie.imdbID}
+                    id={movie.imdbID}
+                    image={movie.Poster}
+                    title={movie.Title}
+                  />
+                ))
+              : displayNoResults()}
+          </div>
         </div>
       </section>
 

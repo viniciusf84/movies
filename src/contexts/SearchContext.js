@@ -8,13 +8,13 @@ const initialState = {
 };
 
 const types = {
-  SEARCH_TERM: 'SEARCH_TERM',
+  SET_EARCH_TERM: 'SET_SEARCH_TERM',
   SET_MESSAGE: 'SET_MESSAGE',
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case types.SEARCH_TERM:
+    case types.SET_EARCH_TERM:
       return {
         ...state,
         searchTerm: action.payload.trim(),
@@ -32,9 +32,9 @@ const reducer = (state, action) => {
 };
 
 const actions = (dispatch) => ({
-  setSearchString: (item) =>
+  setSearchTerm: (item) =>
     dispatch({
-      type: types.SEARCH_TERM,
+      type: types.SET_EARCH_TERM,
       payload: item,
     }),
 
