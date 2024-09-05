@@ -1,17 +1,12 @@
-import { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilm } from '@fortawesome/free-solid-svg-icons';
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-
-// hooks
 import { SearchContext } from '../../contexts/SearchContext';
-
-// Components
 import LoadingContent from '../../components/DataDisplay/LoadingContent';
-
-// service
 import { getMovieData } from '../../utils/services';
+import { format } from 'date-fns';
 
 export default function Profile() {
   const { movieId } = useParams();
@@ -20,13 +15,23 @@ export default function Profile() {
   const { data, error, isLoading } = useQuery({
     queryKey: ['movieData', movieId],
     queryFn: () => getMovieData(movieId),
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    cacheTime: 30 * 60 * 1000, // 30 minutes
-    select: (data) => data?.data,
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 30 * 60 * 1000,
+    select: (data) => data,
   });
 
-  const { Title, Poster, Director, Actors, Genre, Year, Plot, Website } =
+  const { title, poster_path, genres, release_date, overview, homepage } =
     data || {};
+
+  const displayGenres = useCallback(() => {
+    return (
+      <ul>
+        {genres?.map((item) => (
+          <li key={item.name}>{item.name}</li>
+        ))}
+      </ul>
+    );
+  }, [genres]);
 
   return (
     <section className="movie-profile">
@@ -45,15 +50,22 @@ export default function Profile() {
                 </span>
               )}
 
-              <h1>{Title}</h1>
+              <h1>{title}</h1>
 
               <div className="row">
                 <div className="col-xs-12 col-sm-6 col-md-6 col-lg-4">
                   <figure className="poster">
-                    {Poster === 'N/A' ? (
-                      <FontAwesomeIcon icon={faFilm} size="10x" />
+                    {poster_path === 'N/A' ? (
+                      <FontAwesomeIcon
+                        icon={faFilm}
+                        size="10x"
+                        alt="No poster available"
+                      />
                     ) : (
-                      <img src={Poster} alt={Title} />
+                      <img
+                        src={`http://image.tmdb.org/t/p/w500/${poster_path}`}
+                        alt={`Poster of ${title}`}
+                      />
                     )}
                   </figure>
 
@@ -64,41 +76,38 @@ export default function Profile() {
 
                 <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                   <div className="text">
-                    <p>
-                      Title: <strong>{Title}</strong>
-                    </p>
-                    <p>
-                      Director: <strong>{Director}</strong>
-                    </p>
-                    <p>
-                      Actors: <strong>{Actors}</strong>
-                    </p>
-                    <p>
-                      Genre: <strong>{Genre}</strong>
-                    </p>
-                    <p>
-                      Year: <strong>{Year}</strong>
-                    </p>
-                    {Website !== 'N/A' && (
-                      <p>
-                        Website:{' '}
-                        <strong>
-                          <a
-                            href={Website}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {Website}
-                          </a>
-                        </strong>
-                      </p>
-                    )}
-                    {Plot !== 'N/A' && (
-                      <p className="plot">
-                        Description: <br />
-                        {Plot}
-                      </p>
-                    )}
+                    <dl>
+                      <dt>Title:</dt>
+                      <dd>{title}</dd>
+
+                      <dt>Genres:</dt>
+                      <dd>{displayGenres()}</dd>
+
+                      <dt>Release date:</dt>
+                      <dd>{format(new Date(release_date), 'MM/dd/yyyy')}</dd>
+
+                      {homepage && (
+                        <>
+                          <dt>Website:</dt>
+                          <dd>
+                            <a
+                              href={homepage}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {homepage}
+                            </a>
+                          </dd>
+                        </>
+                      )}
+
+                      {overview && (
+                        <>
+                          <dt>Description:</dt>
+                          <dd className="plot">{overview}</dd>
+                        </>
+                      )}
+                    </dl>
                   </div>
                 </div>
               </div>

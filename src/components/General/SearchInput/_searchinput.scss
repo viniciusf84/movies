@@ -1,0 +1,30 @@
+.search-form {
+  @include pxToRem(12);
+  color: $text-3;
+
+  input {
+    background: $white;
+    border: none;
+    padding: 0.4rem;
+    width: 100%;
+    @include pxToRem(14);
+    font-weight: bold;
+
+    &:focus,
+    &:active {
+      border-color: $white;
+    }
+  }
+
+  .icon__wrapper {
+    position: relative;
+    color: $text-3;
+    float: right;
+    margin: -27px 16px 0 0;
+    pointer-events: none;
+
+    svg {
+      width: 0.7rem;
+    }
+  }
+}

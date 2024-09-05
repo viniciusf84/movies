@@ -1,23 +1,25 @@
 import { useContext, useMemo, useCallback } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { SearchContext } from '../../contexts/SearchContext';
-import { titleSearch } from '../../utils/services';
+import { getTitleSearch } from '../../utils/services';
 import LoadingContent from '../../components/DataDisplay/LoadingContent';
-import Item from './Item';
+import SearchItem from '../../components/DataDisplay/SearchItem';
 
 function Results() {
   const { searchTerm, message, actions } = useContext(SearchContext);
   const { setMessage } = actions;
 
   const fetchResults = async ({ pageParam = 1 }) => {
-    const response = await titleSearch(searchTerm, pageParam);
+    const response = await getTitleSearch(searchTerm, pageParam);
     if (response?.data?.Response === 'False') {
       throw new Error(response?.data?.Error);
     }
+
     return {
-      results: response?.data?.Search,
-      nextPage: pageParam + 1,
-      totalResults: parseInt(response?.data?.totalResults, 10),
+      results: response.results,
+      nextPage: response.page + 1,
+      totalResults: response?.total_results,
+      pages: response?.total_pages,
     };
   };
 
@@ -27,7 +29,7 @@ function Results() {
       queryFn: fetchResults,
       enabled: !!searchTerm,
       getNextPageParam: (lastPage) => {
-        return lastPage.nextPage * 10 < lastPage.totalResults
+        return lastPage.nextPage <= lastPage.pages
           ? lastPage.nextPage
           : undefined;
       },
@@ -65,14 +67,20 @@ function Results() {
       <section id="results" className="result-list">
         <div className="row">
           {displayMovies.length > 0
-            ? displayMovies.map((movie) => (
-                <Item
-                  key={movie.imdbID}
-                  id={movie.imdbID}
-                  image={movie.Poster}
-                  title={movie.Title}
-                />
-              ))
+            ? displayMovies.map((movie) => {
+                return (
+                  <SearchItem
+                    key={movie.id}
+                    id={movie.id}
+                    image={
+                      movie.poster_path
+                        ? `http://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                        : null
+                    }
+                    title={movie.title}
+                  />
+                );
+              })
             : displayNoResults()}
         </div>
       </section>

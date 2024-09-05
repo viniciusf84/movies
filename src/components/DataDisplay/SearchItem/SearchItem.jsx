@@ -1,26 +1,20 @@
-import React, { useContext } from 'react';
-import { SearchContext } from '../../contexts/SearchContext';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilm } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
-function Item(props) {
+function SearchItem(props) {
   const { id, image, title } = props;
-  const searchContext = useContext(SearchContext);
 
   return (
     <div className="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <div className="result-list__item">
         <Link to={`/profile/${id}`}>
-          <div
-            className={
-              image === 'N/A' ? 'wrap icon__wrapper' : 'wrap  img__wrapper'
-            }
-          >
-            {image === 'N/A' ? (
-              <FontAwesomeIcon icon={faFilm} size="10x" />
-            ) : (
+          <div className={image ? 'wrap  img__wrapper' : 'wrap icon__wrapper'}>
+            {image ? (
               <img src={image} alt={title} />
+            ) : (
+              <FontAwesomeIcon icon={faFilm} size="10x" />
             )}
           </div>
         </Link>
@@ -34,4 +28,4 @@ function Item(props) {
   );
 }
 
-export default Item;
+export default SearchItem;

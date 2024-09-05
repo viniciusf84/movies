@@ -37,9 +37,24 @@
 
   .text {
     margin: 0 30px 0 20px;
+    display: flex;
 
-    p {
-      margin-bottom: 0.76rem;
+    dd {
+      margin: 0 0 0.76rem;
+    }
+
+    dt {
+      color: $text-3;
+      font-weight: normal;
+    }
+
+    ul {
+      padding: 0;
+      margin: 0 0 0 1rem;
+
+      li {
+        list-style: none;
+      }
     }
 
     @include mediaQueries(sm, max) {
@@ -53,13 +68,7 @@
     @include pxToRem(13);
   }
 
-  strong {
-    color: $text-3;
-    font-weight: normal;
-  }
-
   .plot {
-    margin-top: 2rem;
     color: $text-3;
   }
 
