@@ -38,88 +38,88 @@ export default function Profile() {
       <div className="wrapper container-fluid">
         {error && <h3>{error.message}</h3>}
 
-        <LoadingContent
-          isLoading={isLoading}
-          loadingText="Loading movie details"
-        >
-          {data ? (
-            <article className="details">
-              {searchContext.search && (
-                <span className="small">
-                  You've searched for "{searchContext.search}"{' '}
-                </span>
-              )}
+        <article className="details">
+          <LoadingContent
+            isLoading={isLoading}
+            loadingText="Loading movie details"
+          >
+            {data ? (
+              <>
+                {searchContext.search && (
+                  <span className="small">
+                    You've searched for "{searchContext.search}"{' '}
+                  </span>
+                )}
 
-              <h1>{title}</h1>
+                <h1>{title}</h1>
 
-              <div className="row">
-                <div className="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                  <figure className="poster">
-                    {poster_path === 'N/A' ? (
-                      <FontAwesomeIcon
-                        icon={faFilm}
-                        size="10x"
-                        alt="No poster available"
-                      />
-                    ) : (
-                      <img
-                        src={`http://image.tmdb.org/t/p/w500/${poster_path}`}
-                        alt={`Poster of ${title}`}
-                      />
-                    )}
-                  </figure>
-
-                  <Link className="back" to="/">
-                    Back to search
-                  </Link>
-                </div>
-
-                <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                  <div className="text">
-                    <dl>
-                      <dt>Title:</dt>
-                      <dd>{title}</dd>
-
-                      <dt>Genres:</dt>
-                      <dd>{displayGenres()}</dd>
-
-                      <dt>Release date:</dt>
-                      <dd>{format(new Date(release_date), 'MM/dd/yyyy')}</dd>
-
-                      {homepage && (
-                        <>
-                          <dt>Website:</dt>
-                          <dd>
-                            <a
-                              href={homepage}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {homepage}
-                            </a>
-                          </dd>
-                        </>
+                <div className="row">
+                  <div className="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                    <figure className="poster">
+                      {poster_path === 'N/A' ? (
+                        <FontAwesomeIcon
+                          icon={faFilm}
+                          size="10x"
+                          alt="No poster available"
+                        />
+                      ) : (
+                        <img
+                          src={`http://image.tmdb.org/t/p/w500/${poster_path}`}
+                          alt={`Poster of ${title}`}
+                        />
                       )}
+                    </figure>
 
-                      {overview && (
-                        <>
-                          <dt>Description:</dt>
-                          <dd className="plot">{overview}</dd>
-                        </>
-                      )}
-                    </dl>
+                    <Link className="back" to="/">
+                      Back to search
+                    </Link>
+                  </div>
+
+                  <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <div className="text">
+                      <dl>
+                        <dt>Title:</dt>
+                        <dd>{title}</dd>
+
+                        <dt>Genres:</dt>
+                        <dd>{displayGenres()}</dd>
+
+                        <dt>Release date:</dt>
+                        <dd>{format(new Date(release_date), 'MM/dd/yyyy')}</dd>
+
+                        {homepage && (
+                          <>
+                            <dt>Website:</dt>
+                            <dd>
+                              <a
+                                href={homepage}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {homepage}
+                              </a>
+                            </dd>
+                          </>
+                        )}
+
+                        {overview && (
+                          <>
+                            <dt>Description:</dt>
+                            <dd className="plot">{overview}</dd>
+                          </>
+                        )}
+                      </dl>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </article>
-          ) : (
-            <article className="details">
+              </>
+            ) : (
               <Link className="back" to="/">
                 Back
               </Link>
-            </article>
-          )}
-        </LoadingContent>
+            )}
+          </LoadingContent>
+        </article>
       </div>
     </section>
   );
